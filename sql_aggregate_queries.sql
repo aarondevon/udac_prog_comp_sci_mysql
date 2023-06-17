@@ -11,5 +11,9 @@ SELECT SUM(total_amt_usd) AS total_usd
 FROM orders;
 
 -- Find the total amount spent on standard_amt_usd and gloss_amt_usd paper for each order in the orders table. This should give a dollar amount for each order in the table.
+SELECT SUM(standard_amt_usd) + SUM(gloss_amt_usd) AS total_gloss_and_standard_usd
+FROM orders;
 
 -- Find the standard_amt_usd per unit of standard_qty paper. Your solution should use both aggregation and a mathematical operator.
+SELECT ROUND(SUM(standard_amt_usd) / SUM(standard_qty), 2) AS standard_unit_price
+FROM orders;
