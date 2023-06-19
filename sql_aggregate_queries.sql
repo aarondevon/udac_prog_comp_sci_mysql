@@ -66,7 +66,6 @@ ORDER BY earliest_order
 LIMIT 1;
 
 -- Find the total sales in usd for each account. You should include two columns - the total sales for each company's orders in usd and the company name.
-
 SELECT accounts.name, SUM (orders.total_amt_usd) AS total_sales
 FROM accounts
   JOIN orders ON accounts.id = orders.account_id
@@ -74,6 +73,12 @@ GROUP BY accounts.name
 ORDER BY total_sales;
 
 -- Via what channel did the most recent (latest) web_event occur, which account was associated with this web_event? Your query should return only three values - the date, channel, and account name.
+SELECT accounts.name, web_events.channel, MAX (web_events.occurred_at) AS most_recent_event
+FROM accounts
+  JOIN web_events ON accounts.id = web_events.account_id
+GROUP BY accounts.name, web_events.channel
+ORDER BY most_recent_event
+LIMIT 1;
 
 -- Find the total number of times each type of channel from the web_events was used. Your final table should have two columns - the channel and the number of times the channel was used.
 
