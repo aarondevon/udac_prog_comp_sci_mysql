@@ -77,7 +77,7 @@ SELECT accounts.name, web_events.channel, MAX (web_events.occurred_at) AS most_r
 FROM accounts
   JOIN web_events ON accounts.id = web_events.account_id
 GROUP BY accounts.name, web_events.channel
-ORDER BY most_recent_event
+ORDER BY most_recent_event DESC
 LIMIT 1;
 
 -- Find the total number of times each type of channel from the web_events was used. Your final table should have two columns - the channel and the number of times the channel was used.
