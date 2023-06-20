@@ -55,10 +55,9 @@ FROM orders;
 -- Via the video, you might be interested in how to calculate the MEDIAN. Though this is more advanced than what we have covered so far try finding - what is the MEDIAN total_usd spent on all orders?
 
 -- Which account (by name) placed the earliest order? Your solution should have the account name and the date of the order.
-SELECT accounts.name, MIN(orders.occurred_at) AS earliest_order
+SELECT accounts.name, orders.occurred_at AS earliest_order
 FROM accounts
     JOIN orders ON accounts.id = orders.account_id
-GROUP BY accounts.name
 ORDER BY earliest_order
 LIMIT 1;
 
@@ -70,10 +69,9 @@ GROUP BY accounts.name
 ORDER BY total_sales;
 
 -- Via what channel did the most recent (latest) web_event occur, which account was associated with this web_event? Your query should return only three values - the date, channel, and account name.
-SELECT accounts.name, web_events.channel, MAX (web_events.occurred_at) AS most_recent_event
+SELECT web_events.occurred_at AS most_recent_event, web_events.channel, accounts.name
 FROM accounts
   JOIN web_events ON accounts.id = web_events.account_id
-GROUP BY accounts.name, web_events.channel
 ORDER BY most_recent_event DESC
 LIMIT 1;
 
@@ -83,10 +81,9 @@ FROM web_events
 GROUP BY channel
 ORDER BY times_used;
 -- Who was the primary contact associated with the earliest web_event?
-SELECT accounts.primary_poc, web_events.channel, MIN (web_events.occurred_at) AS earliest_event
+SELECT accounts.primary_poc, web_events.channel, web_events.occurred_at AS earliest_event
 FROM accounts
   JOIN web_events ON accounts.id = web_events.account_id
-GROUP BY accounts.primary_poc, web_events.channel
 ORDER BY earliest_event
 LIMIT 1;
 -- What was the smallest order placed by each account in terms of total usd. Provide only two columns - the account name and the total usd. Order from smallest dollar amounts to largest.
