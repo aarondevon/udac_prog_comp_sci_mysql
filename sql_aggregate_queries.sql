@@ -193,6 +193,7 @@ FROM accounts
 GROUP BY accounts.name
 HAVING COUNT(*) > 20
 ORDER BY accounts.name;
+
 -- Which account has the most orders?
 SELECT accounts.name, COUNT(*) AS number_of_orders
 FROM accounts
@@ -202,6 +203,7 @@ GROUP BY accounts.name
 HAVING COUNT(*) > 20
 ORDER BY number_of_orders DESC
 LIMIT 1;
+
 -- Which accounts spent more than 30,000 usd total across all orders?
 SELECT accounts.name, orders.total_amt_usd
 FROM accounts
@@ -209,6 +211,7 @@ FROM accounts
     ON accounts.id = orders.account_id
 GROUP BY accounts.name, orders.total_amt_usd
 HAVING SUM(orders.total_amt_usd) > 30000;
+
 -- Which accounts spent less than 1,000 usd total across all orders?
 SELECT accounts.name, orders.total_amt_usd
 FROM accounts
@@ -216,6 +219,7 @@ FROM accounts
     ON accounts.id = orders.account_id
 GROUP BY accounts.name, orders.total_amt_usd
 HAVING orders.total_amt_usd < 1000;
+
 -- Which account has spent the most with us?
 SELECT accounts.name, orders.total_amt_usd
 FROM accounts
@@ -225,6 +229,7 @@ GROUP BY accounts.name, orders.total_amt_usd
 HAVING SUM(orders.total_amt_usd) > 30000
 ORDER BY orders.total_amt_usd DESC
 LIMIT 1;
+
 -- Which account has spent the least with us?
 -- Finds account that has spen 0.00
 SELECT accounts.name, orders.total_amt_usd
@@ -244,6 +249,7 @@ GROUP BY accounts.name, orders.total_amt_usd
 HAVING orders.total_amt_usd > 0.00
 ORDER BY orders.total_amt_usd
 LIMIT 1;
+
 -- Which accounts used facebook as a channel to contact customers more than 6 times?
 SELECT accounts.name, web_events.channel, COUNT(*) times_chan_used
 FROM accounts
@@ -252,6 +258,7 @@ FROM accounts
     AND web_events.name = 'facebook'
 GROUP BY accounts.name, web_events.channel
 HAVING COUNT(*) > 6;
+
 -- Which account used facebook most as a channel?
 SELECT accounts.name, web_events.channel, COUNT(*) times_chan_used
 FROM accounts
@@ -262,6 +269,7 @@ GROUP BY accounts.name, web_events.channel
 HAVING COUNT(*) > 6
 ORDER BY times_chan_used DESC
 LIMIT 1;
+
 -- Which channel was most frequently used by most accounts?
 SELECT web_events.channel, COUNT(*) times_chan_used
 FROM accounts
