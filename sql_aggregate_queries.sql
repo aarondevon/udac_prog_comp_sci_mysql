@@ -207,7 +207,8 @@ SELECT accounts.name, orders.total_amt_usd
 FROM accounts
     JOIN orders
     ON accounts.id = orders.account_id
-WHERE orders.total_amt_usd > 30000;
+GROUP BY accounts.name, orders.total_amt_usd
+HAVING SUM(orders.total_amt_usd) > 30000;
 -- Which accounts spent less than 1,000 usd total across all orders?
 -- Which account has spent the most with us?
 -- Which account has spent the least with us?
