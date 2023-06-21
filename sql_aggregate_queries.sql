@@ -233,13 +233,13 @@ LIMIT 1;
 
 -- Which account has spent the least with us?
 -- Finds account that has spen 0.00
-SELECT accounts.name, orders.total_amt_usd
+SELECT accounts.name, SUM(orders.total_amt_usd) total_spent
 FROM accounts
     JOIN orders
     ON accounts.id = orders.account_id
-GROUP BY accounts.name, orders.total_amt_usd
-HAVING orders.total_amt_usd < 1000
-ORDER BY orders.total_amt_usd
+GROUP BY accounts.name
+HAVING SUM(orders.total_amt_usd) < 1000
+ORDER BY total_spent
 LIMIT 1;
 -- Finds account which has spent more than 0.00 but has spent the least amount
 SELECT accounts.name, orders.total_amt_usd
