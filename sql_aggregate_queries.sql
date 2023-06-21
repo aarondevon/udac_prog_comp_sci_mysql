@@ -204,7 +204,7 @@ ORDER BY number_of_orders DESC
 LIMIT 1;
 
 -- Which accounts spent more than 30,000 usd total across all orders?
-SELECT accounts.name, SUM(orders.total_amt_usd) total_spent
+SELECT accounts.name, SUM(orders.total_amt_usd) AS total_spent
 FROM accounts
     JOIN orders
     ON accounts.id = orders.account_id
