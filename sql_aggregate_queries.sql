@@ -263,3 +263,10 @@ HAVING COUNT(*) > 6
 ORDER BY times_chan_used DESC
 LIMIT 1;
 -- Which channel was most frequently used by most accounts?
+SELECT web_events.channel, COUNT(*) times_chan_used
+FROM accounts
+    JOIN web_events
+    ON accounts.id = web_events.account_id
+GROUP BY web_events.channel
+ORDER BY times_chan_used DESC
+LIMIT 1;
