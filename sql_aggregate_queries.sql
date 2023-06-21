@@ -150,7 +150,7 @@ GROUP BY region.name, web_events.channel
 ORDER BY number_of_events DESC;
 
 -- Use DISTINCT to test if there are any accounts associated with more than one region.
-SELECT DISTINCT accounts.name AS account_name,
+SELECT accounts.name AS account_name,
                 region.name AS region_name
 FROM accounts
     JOIN sales_reps
@@ -158,10 +158,21 @@ FROM accounts
     JOIN region
     ON sales_reps.region_id = region.id
 ORDER BY account_name;
+
+-- and
+SELECT DISTINCT id, name
+FROM accounts;
+
 -- Have any sales reps worked on more than one account?
-SELECT DISTINCT accounts.name AS account_name,
+SELECT accounts.name AS account_name,
                 sales_reps.name AS rep_name
 FROM accounts
     JOIN sales_reps
     ON accounts.sales_rep_id = sales_reps.id
 ORDER BY rep_name;
+
+-- and
+
+SELECT DISTINCT id, name
+FROM sales_reps;
+
