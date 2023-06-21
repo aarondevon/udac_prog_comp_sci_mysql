@@ -176,3 +176,12 @@ ORDER BY rep_name;
 SELECT DISTINCT id, name
 FROM sales_reps;
 
+-- How many of the sales reps have more than 5 accounts that they manage?
+SELECT sales_reps.name, COUNT(*)
+FROM sales_reps
+    JOIN accounts
+    ON sales_reps.id = accounts.sales_rep_id
+GROUP BY sales_reps.name
+HAVING COUNT(*) > 5
+ORDER BY sales_reps.name;
+
