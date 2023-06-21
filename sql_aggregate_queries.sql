@@ -200,7 +200,6 @@ FROM accounts
     JOIN orders
     ON accounts.id = orders.account_id
 GROUP BY accounts.name
-HAVING COUNT(*) > 20
 ORDER BY number_of_orders DESC
 LIMIT 1;
 
