@@ -210,6 +210,12 @@ FROM accounts
 GROUP BY accounts.name, orders.total_amt_usd
 HAVING SUM(orders.total_amt_usd) > 30000;
 -- Which accounts spent less than 1,000 usd total across all orders?
+SELECT accounts.name, orders.total_amt_usd
+FROM accounts
+    JOIN orders
+    ON accounts.id = orders.account_id
+GROUP BY accounts.name, orders.total_amt_usd
+HAVING orders.total_amt_usd < 1000;
 -- Which account has spent the most with us?
 -- Which account has spent the least with us?
 -- Which accounts used facebook as a channel to contact customers more than 6 times?
