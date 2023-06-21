@@ -246,9 +246,10 @@ SELECT accounts.name, web_events.channel, COUNT(*) times_chan_used
 FROM accounts
     JOIN web_events
     ON accounts.id = web_events.account_id 
-    AND web_events.name = 'facebook'
+    AND web_events.channel = 'facebook'
 GROUP BY accounts.name, web_events.channel
-HAVING COUNT(*) > 6;
+HAVING COUNT(*) > 6
+ORDER BY times_chan_used;
 
 -- Which account used facebook most as a channel?
 SELECT accounts.name, web_events.channel, COUNT(*) times_chan_used
