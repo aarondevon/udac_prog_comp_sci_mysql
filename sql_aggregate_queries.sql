@@ -245,5 +245,11 @@ HAVING orders.total_amt_usd > 0.00
 ORDER BY orders.total_amt_usd
 LIMIT 1;
 -- Which accounts used facebook as a channel to contact customers more than 6 times?
+SELECT accounts.name, web_events.channel, COUNT(*) times_chan_used
+FROM accounts
+    JOIN web_events
+    ON accounts.id = web_events.account_id
+GROUP BY accounts.name, web_events.channel
+HAVING COUNT(*) > 6;
 -- Which account used facebook most as a channel?
 -- Which channel was most frequently used by most accounts?
