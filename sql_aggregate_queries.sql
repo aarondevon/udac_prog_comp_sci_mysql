@@ -177,7 +177,7 @@ SELECT DISTINCT id, name
 FROM sales_reps;
 
 -- How many of the sales reps have more than 5 accounts that they manage?
-SELECT sales_reps.name, COUNT(*)
+SELECT sales_reps.name, COUNT(*) AS number_of_accounts
 FROM sales_reps
     JOIN accounts
     ON sales_reps.id = accounts.sales_rep_id
