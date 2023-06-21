@@ -226,6 +226,24 @@ HAVING SUM(orders.total_amt_usd) > 30000
 ORDER BY orders.total_amt_usd DESC
 LIMIT 1;
 -- Which account has spent the least with us?
+-- Finds account that has spen 0.00
+SELECT accounts.name, orders.total_amt_usd
+FROM accounts
+    JOIN orders
+    ON accounts.id = orders.account_id
+GROUP BY accounts.name, orders.total_amt_usd
+HAVING orders.total_amt_usd < 1000
+ORDER BY orders.total_amt_usd
+LIMIT 1;
+-- Finds account which has spent more than 0.00 but has spent the least amount
+SELECT accounts.name, orders.total_amt_usd
+FROM accounts
+    JOIN orders
+    ON accounts.id = orders.account_id
+GROUP BY accounts.name, orders.total_amt_usd
+HAVING orders.total_amt_usd > 0.00
+ORDER BY orders.total_amt_usd
+LIMIT 1;
 -- Which accounts used facebook as a channel to contact customers more than 6 times?
 -- Which account used facebook most as a channel?
 -- Which channel was most frequently used by most accounts?
