@@ -222,13 +222,13 @@ HAVING SUM(orders.total_amt_usd) < 1000
 ORDER BY total_spent;
 
 -- Which account has spent the most with us?
-SELECT accounts.name, orders.total_amt_usd
+SELECT accounts.name, SUM(orders.total_amt_usd) AS total_spent
 FROM accounts
     JOIN orders
     ON accounts.id = orders.account_id
-GROUP BY accounts.name, orders.total_amt_usd
+GROUP BY accounts.name
 HAVING SUM(orders.total_amt_usd) > 30000
-ORDER BY orders.total_amt_usd DESC
+ORDER BY total_spent DESC
 LIMIT 1;
 
 -- Which account has spent the least with us?
