@@ -1,4 +1,9 @@
 -- Find the sales in terms of total dollars for all orders in each year, ordered from greatest to least. Do you notice any trends in the yearly sales totals?
+SELECT DATE_TRUNC('year', orders.occurred_at) AS year, 
+        SUM(orders.total_amt_usd) AS total_spent
+FROM orders
+GROUP BY DATE_TRUNC('year', orders.occurred_at)
+ORDER BY total_spent DESC;
 
 -- Which month did Parch & Posey have the greatest sales in terms of total dollars? Are all months evenly represented by the dataset?
 
