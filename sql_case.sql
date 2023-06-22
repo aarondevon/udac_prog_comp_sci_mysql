@@ -32,6 +32,17 @@ is anyone under 100,000 usd. Provide a table that includes the level associated 
 You should provide the account name, the total sales of all orders for the customer, and the level.
 Order with the top spending customers listed first.
 */
+SELECT accounts.name, SUM(orders.total_amt_usd) AS total_spent,
+CASE
+    WHEN SUM(orders.total_amt_usd) > 200000 THEN 'top'
+    WHEN SUM(orders.total_amt_usd) BETWEEN 100000 AND 200000 THEN 'middle'
+    ELSE 'low'
+END AS customer_level
+FROM accounts
+    JOIN orders
+    ON accounts.id = orders.account_id
+GROUP BY accounts.name
+ORDER BY 2 DESC;
 
 /* 
 We would now like to perform a similar calculation to the first, but we want to obtain the total amount
