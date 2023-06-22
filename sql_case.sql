@@ -3,12 +3,12 @@ Write a query to display for each order, the account ID, the total amount of the
 and the level of the order - ‘Large’ or ’Small’ - depending on if the order is $3000 or
 more, or smaller than $3000. 
 */
-SELECT order.account_id, total_amt_usd,
+SELECT account_id, total_amt_usd,
 CASE
     WHEN total_amt_usd >= 3000 THEN 'Large'
     ELSE 'Small'
 END AS level
-FROM;
+FROM orders;
 
 /*
 Write a query to display the number of orders in each of three categories, based on the
