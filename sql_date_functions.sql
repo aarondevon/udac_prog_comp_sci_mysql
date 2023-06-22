@@ -6,6 +6,12 @@ GROUP BY DATE_PART('year', orders.occurred_at)
 ORDER BY total_spent DESC;
 
 -- Which month did Parch & Posey have the greatest sales in terms of total dollars? Are all months evenly represented by the dataset?
+SELECT DATE_PART('month', occurred_at) AS month, SUM(total_amt_usd) AS total_spent
+FROM orders
+-- for this scenario 2013 did not have many sales, and they year 2017 just started
+WHERE occured_at BETWEEN '2014-01-01' AND '2017-01-01'
+GROUP BY 1
+ORDER BY 2 DESC;
 
 -- Which year did Parch & Posey have the greatest sales in terms of the total number of orders? Are all years evenly represented by the dataset?
 
