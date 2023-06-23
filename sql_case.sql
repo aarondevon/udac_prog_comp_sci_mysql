@@ -49,6 +49,18 @@ We would now like to perform a similar calculation to the first, but we want to 
 spent by customers only in 2016 and 2017. Keep the same levels as in the previous question. Order with the
 top spending customers listed first.
 */
+SELECT orders.account_id, accounts.name, DATE_PART('year' , orders.occurred_at) AS year, SUM(total_amt_usd) AS total_spent,
+CASE
+    WHEN SUM(orders.total_amt_usd) > 200000 THEN 'top'
+    WHEN SUM(orders.total_amt_usd) BETWEEN 100000 AND 200000 THEN 'middle'
+    ELSE 'low'
+END AS customer_level
+FROM orders
+    JOIN accounts
+    ON orders.account_id = accounts.id
+GROUP BY 1, 2, 3
+HAVING DATE_PART('year', orders.occurred_at) BETWEEN 2016 AND 2017
+ORDER BY 4 DESC;
 
 /*
 We would like to identify top-performing sales reps, which are sales reps associated with more than 200 orders.
