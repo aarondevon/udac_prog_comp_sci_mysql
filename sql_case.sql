@@ -71,7 +71,7 @@ SELECT sales_reps.name, COUNT(*) AS order_total,
 CASE
     WHEN COUNT(*) > 200 THEN 'Top'
     ELSE 'Not'
-    END AS top_performing
+END AS top_performing
 FROM sales_reps
     JOIN accounts
     ON sales_reps.id = accounts.sales_rep_id
