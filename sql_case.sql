@@ -67,6 +67,18 @@ We would like to identify top-performing sales reps, which are sales reps associ
 Create a table with the sales rep name, the total number of orders, and a column with top or not depending on if
 they have more than 200 orders. Place the top salespeople first in your final table.
 */
+SELECT sales_reps.name, COUNT(*) AS order_total,
+CASE
+    WHEN COUNT(*) > 200 THEN 'Top'
+    ELSE 'Not'
+    END AS top_performing
+FROM sales_reps
+    JOIN accounts
+    ON sales_reps.id = accounts.sales_rep_id
+    JOIN orders
+    ON accounts.id = orders.account_id
+GROUP BY sales_reps.name
+ORDER BY 2 DESC;
 
 /*
 The previous didn't account for the middle, nor the dollar amount associated with the sales. Management decides
