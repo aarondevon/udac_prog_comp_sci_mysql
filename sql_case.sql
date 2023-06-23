@@ -89,4 +89,16 @@ number of orders, total sales across all orders, and a column with top, middle, 
 Place the top salespeople based on the dollar amount of sales first in your final table. You might see a few upset 
 salespeople by this criteria!
 */
-
+SELECT sales_reps.name, COUNT(*) AS total_orders, SUM(orders.total_amt_usd) AS total_amt_usd,
+CASE
+    WHEN COUNT(*) > 200 OR SUM(orders.total_amt_usd) > 750000 THEN 'Top'
+    WHEN COUNT(*) > 150 OR SUM(orders.total_amt_usd) > 500000 THEN 'Middle'
+    ELSE 'Low'
+    END AS top_performing
+FROM orders
+    JOIN accounts
+    ON orders.account_id = accounts.id
+    JOIN sales_reps
+    ON accounts.sales_rep_id = sales_reps.id
+GROUP BY sales_reps.name
+ORDER BY 3 DESC;
