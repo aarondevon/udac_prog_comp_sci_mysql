@@ -23,3 +23,17 @@ ORDER BY average_events_per_day DESC;
 -- Use DATE_TRUNC to pull month level information about the first order ever placed
 SELECT DATE_TRUNC('month', MIN(occurred_at))
 FROM orders;
+
+/* 
+Use the result of the previous querry to find the orders that took place in the same month and year
+as the first order, and then pull the average for each type of paper quantity in this month. Also,
+pull total sales amount for the same month and year
+*/
+SELECT  
+        AVG(standard_qty) AS avg_standard_qty, 
+        AVG(gloss_qty) AS avg_gloss_qty, 
+        AVG(poster_qty) AS avg_poster_qty,
+        SUM(total_amt_usd)
+FROM orders
+WHERE DATE_TRUNC('month', occurred_at) = (SELECT DATE_TRUNC('month', MIN(occurred_at))
+            FROM orders);
