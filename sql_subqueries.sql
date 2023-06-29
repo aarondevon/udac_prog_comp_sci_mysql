@@ -37,3 +37,26 @@ SELECT
 FROM orders
 WHERE DATE_TRUNC('month', occurred_at) = (SELECT DATE_TRUNC('month', MIN(occurred_at))
             FROM orders);
+
+-- What is the top channel used by each account to market products?
+-- How often was that same channel used?
+WITH cte_2 AS (SELECT account_id, channel, COUNT(*) as times_used
+FROM web_events
+GROUP BY account_id, channel)
+
+SELECT *
+FROM cte_2
+
+WITH cte_1 AS 
+(SELECT accounts.name, web_events.channel, COUNT(*) AS used
+FROM web_events
+JOIN accounts
+ON web_events.account_id = accounts.id
+GROUP BY accounts.name, web_events.channel
+ORDER BY accounts.name, used)
+
+SELECT *
+FROM cte_1
+ORDER BY name, used DESC;
+
+
