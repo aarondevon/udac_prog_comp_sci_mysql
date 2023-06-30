@@ -59,4 +59,54 @@ SELECT *
 FROM cte_1
 ORDER BY name, used DESC;
 
+SELECT *
+FROM
+(SELECT account_id, channel, COUNT(*) AS used
+FROM web_events
+GROUP BY accounts.name, web_events.channel
+ORDER BY accounts.name, used) AS etd 
+GROUP BY name, channel, used
+HAVING name = name and used = MAX(used)
+ORDER BY name, used DESC
 
+SELECT *
+FROM
+(SELECT account_id, channel, COUNT(*) AS channel_count
+FROM web_events
+GROUP BY account_id, web_events.channel
+ORDER BY account_id, used DESC) AS etd
+
+SELECT account.name, web_events.account_id
+FROM accounts
+JOIN web_events
+ON accounts.id = web_events.accounts;
+
+
+
+WITH top_channels AS (SELECT account_id, channel, COUNT(channel) AS channel_count
+FROM web_events
+GROUP BY account_id, channel
+order by account_id, channel_count DESC
+),
+table_two AS (SELECT *, row_number() over (partition by account_id, channel, channel_count ORDER BY account_id, channel, channel_count DESC) AS rn FROM top_channels
+)
+
+SELECT *
+FROM table_two
+ORDER BY account_id, channel
+
+
+
+
+
+WITH top_channels AS (SELECT account_id, channel, COUNT(channel) AS channel_count
+FROM web_events
+GROUP BY account_id, channel
+order by account_id, channel_count DESC
+),
+table_two AS (SELECT *, row_number() over (partition by account_id, channel, channel_count ORDER BY account_id, channel, channel_count DESC) AS rn FROM top_channels
+)
+
+SELECT *
+FROM table_two
+ORDER BY account_id, channel
