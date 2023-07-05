@@ -68,4 +68,4 @@ GROUP BY day, channel
 SELECT channel, AVG(events) AS average_events
 FROM events
 GROUP BY channel
-ORDER BY channel, average_events DESC;
+ORDER BY average_events DESC;
