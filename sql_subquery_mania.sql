@@ -73,6 +73,28 @@ ORDER BY average_events DESC;
 -- 1. Provide the name of the sales_rep in each region with the largest amount of total_amt_usd sales.
 
 -- 2. For the region with the largest sales total_amt_usd, how many total orders were placed?
+WITH region_with_most_sales AS (
+    SELECT region.id, region.name, SUM(orders.total_amt_usd) AS total_sales
+    FROM region
+        JOIN sales_reps
+        ON sales_reps.region_id = region.id
+        JOIN accounts
+        ON accounts.sales_rep_id = sales_reps.id
+        JOIN orders
+        ON orders.account_id = accounts.id
+    GROUP BY region.id, region.name
+    ORDER BY total_sales DESC
+    LIMIT 1
+)
+SELECT region_with_most_sales.id, region_with_most_sales.name, region_with_most_sales.total_sales, COUNT(*) AS total_orders
+FROM sales_reps
+        JOIN region_with_most_sales
+        ON sales_reps.region_id = region_with_most_sales.id
+        JOIN accounts
+        ON accounts.sales_rep_id = sales_reps.id
+        JOIN orders
+        ON orders.account_id = accounts.id
+GROUP BY region_with_most_sales.id, region_with_most_sales.name, region_with_most_sales.total_sales
 
 -- 3. How many accounts had more total purchases than the account name which has bought the most standard_qty
 --    paper throughout their lifetime as a customer?
