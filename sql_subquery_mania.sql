@@ -72,6 +72,52 @@ ORDER BY average_events DESC;
 
 -- 1. Provide the name of the sales_rep in each region with the largest amount of total_amt_usd sales.
 
+WITH total_sales AS (
+    SELECT sales_reps.id AS rep_id, SUM(total_amt_usd) AS total_sales
+    FROM sales_reps
+        JOIN accounts
+        ON accounts.sales_rep_id = sales_reps.id
+        JOIN orders
+        ON orders.account_id = accounts.id
+    GROUP BY sales_reps.id
+)
+SELECT sales_reps.name AS rep_name, region.name AS region_name,
+        MAX(total_sales.total_sales) AS total_sales
+FROM sales_reps
+    JOIN total_sales
+    ON total_sales.rep_id = sales_reps.id
+    JOIN region
+    ON region.id = sales_reps.region_id
+GROUP BY sales_reps.name, region.name
+ORDER BY total_sales DESC
+;
+
+-- Next try
+WITH total_sales AS (
+    SELECT sales_reps.id AS rep_id, sales_reps.name AS rep_name,
+            region.id AS region_id, region.name AS region_name,
+            SUM(total_amt_usd) AS total_sales
+    FROM sales_reps
+        JOIN region
+        ON region.id = sales_reps.region_id
+        JOIN accounts
+        ON accounts.sales_rep_id = sales_reps.id
+        JOIN orders
+        ON orders.account_id = accounts.id
+    GROUP BY sales_reps.id, sales_reps.name, region.id, 
+            region.name
+)
+SELECT total_sales.rep_name AS rep_name, total_sales.region_name AS region_name,
+        total_sales.total_sales AS total_sales
+FROM total_sales
+    JOIN accounts
+    ON accounts.sales_rep_id = total_sales.rep_id
+    JOIN orders
+    ON orders.account_id = accounts.id
+GROUP BY total_sales.rep_name, total_sales.region_name, total_sales.total_sales
+HAVING total_sales = SUM(orders.total_amt_usd)
+ORDER BY region_name, total_sales DESC
+
 -- 2. For the region with the largest sales total_amt_usd, how many total orders were placed?
 WITH region_with_most_sales AS (
     SELECT region.id, region.name, SUM(orders.total_amt_usd) AS total_sales
