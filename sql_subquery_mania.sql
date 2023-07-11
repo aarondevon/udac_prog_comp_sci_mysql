@@ -144,6 +144,27 @@ GROUP BY region_with_most_sales.id, region_with_most_sales.name, region_with_mos
 
 -- 3. How many accounts had more total purchases than the account name which has bought the most standard_qty
 --    paper throughout their lifetime as a customer?
+WITH t1 AS (
+    SELECT accounts.id, SUM(orders.standard_qty) AS total_standard_qty, COUNT(*) AS total_orders
+    FROM accounts
+        JOIN orders
+        ON orders.account_id = accounts.id
+    GROUP BY accounts.id
+    ORDER BY total_standard_qty DESC
+    LIMIT 1
+), t2 AS (
+    SELECT orders.account_id, COUNT(orders.total) AS total_orders
+    FROM orders
+        JOIN t1
+        ON t1.id != orders.account_id 
+    GROUP BY orders.account_id
+)
+SELECT t2.account_id, t2.total_orders
+FROM t2
+    JOIN t1
+    ON t1.id != t2.account_id 
+WHERE t2.total_orders > t1.total_standard_qty
+ORDER BY t2.total_orders
 
 -- 4. For the customer that spent the most (in total over their lifetime as a customer) total_amt_usd, how many
 --    web_events did they have for each channel?
