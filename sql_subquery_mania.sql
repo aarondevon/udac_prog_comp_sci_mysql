@@ -11,7 +11,7 @@ GROUP BY channel
 ORDER BY average_events DESC;
 
 -- 1. Provide the name of the sales_rep in each region with the largest amount of total_amt_usd sales.
-
+-- Still working on this
 WITH total_sales AS (
     SELECT sales_reps.id AS rep_id, SUM(total_amt_usd) AS total_sales
     FROM sales_reps
@@ -84,6 +84,7 @@ GROUP BY region_with_most_sales.id, region_with_most_sales.name, region_with_mos
 
 -- 3. How many accounts had more total purchases than the account name which has bought the most standard_qty
 --    paper throughout their lifetime as a customer?
+-- Still working on this
 WITH t1 AS (
     SELECT accounts.id, SUM(orders.standard_qty) AS total_standard_qty, COUNT(*) AS total_orders
     FROM accounts
